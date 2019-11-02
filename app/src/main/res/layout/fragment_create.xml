@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/text_create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        android:textSize="1sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/Mood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mood"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:text="@string/tap_happy" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:text="@string/tap_unhappy" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_border3"
+            android:textSize="10sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/blank" />
+
+        <TextView
+            android:id="@+id/things_happened"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/things_happened"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editText_happened"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/text_border4"
+            android:textSize="10sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/blank" />
+
+        <TextView
+            android:id="@+id/thoughts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/thought"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editText_thought"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/text_border5"
+            android:textSize="10sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/blank" />
+
+        <TextView
+            android:id="@+id/actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/action"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/editText_action"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine" />
+
+        <TextView
+            android:id="@+id/text_border6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/blank"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/music"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/music"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/text_border"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/blank" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="42dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/remind1" />
+
+            <EditText
+                android:id="@+id/editText_day"
+                android:layout_width="5dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/remind2" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:text="@string/btn_submit" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

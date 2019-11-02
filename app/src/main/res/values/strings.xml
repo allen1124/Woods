@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Woods</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_home">Home</string>
+    <string name="title_explore">Explore</string>
+    <string name="title_create">Create</string>
+    <string name="title_notifications">News</string>
+    <string name="title_message">Chat</string>
+    <string name="title_user">Mine</string>
+    <string name="tap_history">History</string>
+    <string name="tap_user">Setting</string>
+    <string name="tap_happy">Happy</string>
+    <string name="tap_unhappy">Unhappy</string>
+    <string name="btn_uname">Change Username</string>
+    <string name="btn_dac">Delete Account</string>
+    <string name="btn_about">About</string>
+    <string name="btn_help">Help</string>
+    <string name="btn_submit">Post</string>
+    <string name="things_happened">THINGS HAPPENED:</string>
+    <string name="mood">MOODS:</string>
+    <string name="thought">THOUGHTS:</string>
+    <string name="action">ACTIONS:</string>
+    <string name="music">MUSIC:</string>
+    <string name="remind1">REMIND ME AFTER:</string>
+    <string name="remind2">DAY</string>
+    <string name="blank"> </string>
 </resources>

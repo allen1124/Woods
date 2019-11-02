@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "74907351328",
+    "firebase_url": "https://woods-4acd4.firebaseio.com",
+    "project_id": "woods-4acd4",
+    "storage_bucket": "woods-4acd4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:74907351328:android:8a1fda9fd217a29ff4ff45",
+        "android_client_info": {
+          "package_name": "com.hkucs.woods"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "74907351328-sqplajop8e7355jmqv8q8qdhuhic6l7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP4s-4viVZKQAtp8hbbjcWTxhARqUEHNE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "74907351328-sqplajop8e7355jmqv8q8qdhuhic6l7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

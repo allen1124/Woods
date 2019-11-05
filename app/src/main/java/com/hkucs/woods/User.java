@@ -13,4 +13,5 @@ public class User {
        this.username = username;
        this.avatarImageUrl = avatarImageUrl;
     }
+
 }

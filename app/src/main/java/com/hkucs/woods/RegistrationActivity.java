@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +42,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText username;
     private Uri avatarUri;
     private String avatarImageUrl = "";
+    private ProgressBar progressBar;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
@@ -57,6 +59,7 @@ public class RegistrationActivity extends AppCompatActivity {
         register = (Button) findViewById(R.id.button_register);
         avatar = (Button) findViewById(R.id.button_avator);
         username = (EditText) findViewById(R.id.editText_username);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         register.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View view){
                 if(username.getText().toString().matches("")){
@@ -104,6 +107,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("REGISTRATION", "signInAnonymously:success");
+                            progressBar.setVisibility(View.VISIBLE);
                             FirebaseUser user = mAuth.getCurrentUser();
                             uploadImageToFirebase();
                             Toast.makeText(RegistrationActivity.this, "Account Created",
@@ -149,9 +153,11 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
+                    progressBar.setVisibility(View.GONE);
                     Log.d("REGISTRATION", "user saved");
                     Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
                     startActivity(intent);
+                    finish();
                 }else{
                     Log.d("REGISTRATION", task.getException().getMessage());
                 }

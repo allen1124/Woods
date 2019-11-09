@@ -2,6 +2,7 @@ package com.hkucs.woods;
 
 
 import java.util.Date;
+import java.util.List;
 
 public class Post {
     public String pid;
@@ -9,6 +10,12 @@ public class Post {
     public String author_username;
     public Boolean moods;
     public String event;
+    public String thought;
+    public String action;
+    public Date returnTime;
+    public List<Comment> commentList;
+
+    public Post(){}
 
     public Post(String pid, String author_uid, String author_username, Boolean moods, String event){
         this.pid = pid;
@@ -82,13 +89,12 @@ public class Post {
         this.returnTime = returnTime;
     }
 
-    public String thought;
-    public String action;
-    public Date returnTime;
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
 
-    public Post(){}
-
-
-
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
 
 }

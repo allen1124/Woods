@@ -3,6 +3,7 @@ package com.hkucs.woods;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,10 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,6 +44,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private CircleImageView avatarImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
         avatar = (Button) findViewById(R.id.button_avator);
         username = (EditText) findViewById(R.id.editText_username);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        avatarImageView = (CircleImageView) findViewById(R.id.avatar_imageview);
         register.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View view){
                 if(username.getText().toString().matches("")){
@@ -95,7 +96,8 @@ public class RegistrationActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            avatar.setBackgroundDrawable(new BitmapDrawable(bitmap));
+            avatarImageView.setImageBitmap(bitmap);
+            avatar.setAlpha(0f);
         }
     }
 

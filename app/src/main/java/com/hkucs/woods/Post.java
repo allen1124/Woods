@@ -10,6 +10,14 @@ public class Post {
     public Boolean moods;
     public String event;
 
+    public Post(String pid, String author_uid, String author_username, Boolean moods, String event){
+        this.pid = pid;
+        this.author_uid = author_uid;
+        this.author_username = author_username;
+        this.moods = moods;
+        this.event = event;
+    }
+
     public String getPid() {
         return pid;
     }

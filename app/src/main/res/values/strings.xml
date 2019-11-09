@@ -31,4 +31,5 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="select_photo">"SELECT PHOTO"</string>
+    <string name="home_title">"Your History"</string>
 </resources>

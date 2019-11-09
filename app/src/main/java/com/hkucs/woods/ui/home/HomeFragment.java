@@ -27,6 +27,7 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth mAuth;
     private RecyclerView recyclerView;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();

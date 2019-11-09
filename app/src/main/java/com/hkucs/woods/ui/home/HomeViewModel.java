@@ -14,7 +14,7 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<List<Post>> posts;
 
     public HomeViewModel() {
-        posts = new MutableLiveData<List<Post>>();
+        posts = new MutableLiveData<>();
         loadPosts();
     }
 

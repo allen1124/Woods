@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
     }
 
-    private void hideSoftKeyBard(){
+    private void hideSoftKeyBoard(){
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 

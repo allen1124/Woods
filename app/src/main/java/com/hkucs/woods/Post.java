@@ -1,28 +1,36 @@
 package com.hkucs.woods;
 
 
-import java.util.Date;
+
+
 import java.util.List;
+import java.util.Date;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Post {
-    public String pid;
-    public String author_uid;
-    public String author_username;
-    public Boolean moods;
-    public String event;
-    public String thought;
-    public String action;
-    public Date returnTime;
-    public List<Comment> commentList;
+    private String pid;
+    private String uid;
+    private String username;
+    private Boolean moods;
+    private String event;
+    private String thought;
+    private String action;
+    private Date RemindDate;
+    private Map<String,Comment> commentList = new HashMap<>();
 
     public Post(){}
 
-    public Post(String pid, String author_uid, String author_username, Boolean moods, String event){
+    public Post(String pid, String uid, String username, Boolean moods, String event,String thought,String action,Date RemindDate){
         this.pid = pid;
-        this.author_uid = author_uid;
-        this.author_username = author_username;
+        this.uid = uid;
+        this.username = username;
         this.moods = moods;
         this.event = event;
+        this.thought = thought;
+        this.action = action;
+        this.RemindDate = RemindDate;
+
     }
 
     public String getPid() {
@@ -33,20 +41,20 @@ public class Post {
         this.pid = pid;
     }
 
-    public String getAuthor_uid() {
-        return author_uid;
+    public String getUid() {
+        return uid;
     }
 
-    public void setAuthor_uid(String author_uid) {
-        this.author_uid = author_uid;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public String getAuthor_username() {
-        return author_username;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAuthor_username(String author_username) {
-        this.author_username = author_username;
+    public void setUsername(String author_username) {
+        this.username = author_username;
     }
 
     public Boolean getMoods() {
@@ -81,20 +89,29 @@ public class Post {
         this.action = action;
     }
 
-    public Date getReturnTime() {
-        return returnTime;
+
+
+//    public List<Comment> getCommentList() {
+//        return commentList;
+//    }
+//
+//    public void setCommentList(List<Comment> commentList) {
+//        this.commentList = commentList;
+//    }
+
+    public Map<String, Object> toMap(){
+       HashMap<String, Object> result = new HashMap<>();
+       result.put("pid",pid);
+       result.put("uid",uid);
+       result.put("username",username);
+       result.put("moods",moods);
+       result.put("event",event);
+       result.put("thought",thought);
+       result.put("action",action);
+       result.put("date",RemindDate);
+
+       return result;
     }
 
-    public void setReturnTime(Date returnTime) {
-        this.returnTime = returnTime;
-    }
-
-    public List<Comment> getCommentList() {
-        return commentList;
-    }
-
-    public void setCommentList(List<Comment> commentList) {
-        this.commentList = commentList;
-    }
 
 }

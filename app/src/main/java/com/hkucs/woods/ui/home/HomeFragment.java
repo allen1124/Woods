@@ -28,20 +28,20 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
 
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        mAuth = FirebaseAuth.getInstance();
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        recyclerView = root.findViewById(R.id.recycleview_posts);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        homeViewModel.getPosts().observe(this, new Observer<List<Post>>() {
-            @Override
-            public void onChanged(@Nullable List<Post> postList) {
-                recyclerView.setAdapter(new PostsAdapter(postList));
-            }
-        });
+        public View onCreateView(@NonNull LayoutInflater inflater,
+                ViewGroup container, Bundle savedInstanceState) {
+            mAuth = FirebaseAuth.getInstance();
+            homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+            View root = inflater.inflate(R.layout.fragment_home, container, false);
+            recyclerView = root.findViewById(R.id.recycleview_posts);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            homeViewModel.getPosts().observe(this, new Observer<List<Post>>() {
+                @Override
+                public void onChanged(@Nullable List<Post> postList) {
+                    recyclerView.setAdapter(new PostsAdapter(postList));
+                }
+            });
 
-        return root;
+            return root;
     }
 }

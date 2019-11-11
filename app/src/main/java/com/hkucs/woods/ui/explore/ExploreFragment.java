@@ -32,17 +32,17 @@ public class ExploreFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         exploreViewModel =
                 ViewModelProviders.of(this).get(ExploreViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_explore, container, false);
-        exploreTab = root.findViewById(R.id.tabLayout_explore);
-        exploreViewModel.loadHappyPosts();
-        exploreTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("EXPLORE", "tab selected"+tab.getPosition());
-                if(tab.getPosition() == 0)
-                    exploreViewModel.loadHappyPosts();
-                if(tab.getPosition() == 1)
-                    exploreViewModel.loadSadPosts();
+                View root = inflater.inflate(R.layout.fragment_explore, container, false);
+                exploreTab = root.findViewById(R.id.tabLayout_explore);
+                exploreViewModel.loadHappyPosts();
+                exploreTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        Log.d("EXPLORE", "tab selected"+tab.getPosition());
+                        if(tab.getPosition() == 0)
+                            exploreViewModel.loadHappyPosts();
+                        if(tab.getPosition() == 1)
+                            exploreViewModel.loadSadPosts();
             }
 
             @Override

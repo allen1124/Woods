@@ -69,7 +69,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         Post post = postList.get(position);
         List<Comment> commentList = new ArrayList<Comment>();
         commentList.add(new Comment("Joker", "HAHAHA", new Date()));
-        holder.username.setText(post.getAuthor_username());
+        holder.username.setText(commentList.get(commentList.size()-1).getAuthor_username());
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

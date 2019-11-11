@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_message"
-        android:name="com.hkucs.woods.ui.message.MessageFragment"
+        android:name="com.hkucs.woods.ui.message.Message_UserFragment"
         android:label="@string/title_message"
-        tools:layout="@layout/fragment_message" />
+        tools:layout="@layout/fragment_message_user" />
 </navigation>

@@ -33,6 +33,14 @@ public class Post {
 
     }
 
+    public Post(String pid, String uid, String username, Boolean moods, String event){
+        this.pid = pid;
+        this.uid = uid;
+        this.username = username;
+        this.moods = moods;
+        this.event = event;
+    }
+
     public String getPid() {
         return pid;
     }

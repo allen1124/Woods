@@ -36,27 +36,27 @@
             android:text="@string/mood"
             android:textSize="18sp" />
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/radioGroup_emotion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
             <RadioButton
-                android:id="@+id/radioButton"
-                android:layout_width="wrap_content"
+                android:id="@+id/radioButton_positive"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#00FFFFFF"
                 android:text="@string/tap_happy" />
 
             <RadioButton
-                android:id="@+id/radioButton2"
-                android:layout_width="wrap_content"
+                android:id="@+id/radioButton_negative"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#00FFFFFF"
                 android:text="@string/tap_unhappy" />
-        </LinearLayout>
+        </RadioGroup>
 
         <TextView
             android:id="@+id/text_border3"
@@ -73,7 +73,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/editText_happened"
+            android:id="@+id/editText_event"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:ems="10"
@@ -157,12 +157,12 @@
                 android:text="@string/remind1" />
 
             <EditText
-                android:id="@+id/editText_day"
+                android:id="@+id/editText_remind_day"
                 android:layout_width="5dp"
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number"
+                android:inputType="numberSigned"
                 android:textSize="12sp" />
 
             <TextView

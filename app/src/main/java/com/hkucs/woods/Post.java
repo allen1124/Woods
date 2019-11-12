@@ -30,7 +30,6 @@ public class Post {
         this.thought = thought;
         this.action = action;
         this.RemindDate = RemindDate;
-
     }
 
     public String getPid() {

@@ -26,7 +26,7 @@ public class ExploreViewModel extends ViewModel {
     public void loadHappyPosts() {
         List<Post> postList = new ArrayList<Post>();
         for(int i = 0; i < 100; i++){
-            postList.add(new Post("1231231", "1231231", "HAPPY", true, "asdasidaosidjaosdjia","hhjhj","hjl", Calendar.getInstance().getTime()));
+            postList.add(new Post("1231231", "1231231", "HAPPY", true, "asdasidaosidjaosdjia","hhjhj","hjl", Calendar.getInstance().getTime().toString()));
         }
         posts.postValue(postList);
     }
@@ -34,7 +34,7 @@ public class ExploreViewModel extends ViewModel {
     public void loadSadPosts() {
         List<Post> postList = new ArrayList<Post>();
         for(int i = 0; i < 100; i++){
-            postList.add(new Post("1231231", "1231231", "SAD", true, "asdasidaosidjaosdjia","hhjhj","hjl", Calendar.getInstance().getTime()));
+            postList.add(new Post("1231231", "1231231", "SAD", true, "asdasidaosidjaosdjia","hhjhj","hjl", Calendar.getInstance().getTime().toString()));
         }
         posts.postValue(postList);
     }

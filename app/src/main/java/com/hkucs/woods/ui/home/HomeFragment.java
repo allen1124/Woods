@@ -1,11 +1,13 @@
 package com.hkucs.woods.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,7 +28,9 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private FirebaseAuth mAuth;
     private RecyclerView recyclerView;
-
+    private LinearLayoutManager layoutManager;
+    private PostsAdapter postsAdapter;
+    private int mPosts = 10;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -34,14 +38,27 @@ public class HomeFragment extends Fragment {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = root.findViewById(R.id.recycleview_posts);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        postsAdapter = new PostsAdapter(getActivity());
+        homeViewModel.loadPosts(mPosts);
         homeViewModel.getPosts().observe(this, new Observer<List<Post>>() {
             @Override
             public void onChanged(@Nullable List<Post> postList) {
-                recyclerView.setAdapter(new PostsAdapter(postList));
+                postsAdapter.setPostList(postList);
+                recyclerView.setAdapter(postsAdapter);
             }
         });
-
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int id = layoutManager.findLastCompletelyVisibleItemPosition();
+                if(id >= postsAdapter.getItemCount()-1){
+                    homeViewModel.addNewPost(postsAdapter.getLastItemDate());
+                }
+            }
+        });
         return root;
     }
 }

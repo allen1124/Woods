@@ -16,12 +16,13 @@ public class Post {
     private String event;
     private String thought;
     private String action;
-    private Date RemindDate;
+
+    private String remindDate;
     private Map<String,Comment> commentList = new HashMap<>();
 
     public Post(){}
 
-    public Post(String pid, String uid, String username, Boolean moods, String event,String thought,String action,Date RemindDate){
+    public Post(String pid, String uid, String username, Boolean moods, String event,String thought,String action,String remindDate){
         this.pid = pid;
         this.uid = uid;
         this.username = username;
@@ -29,7 +30,7 @@ public class Post {
         this.event = event;
         this.thought = thought;
         this.action = action;
-        this.RemindDate = RemindDate;
+        this.remindDate = remindDate;
     }
 
     public String getPid() {
@@ -88,7 +89,13 @@ public class Post {
         this.action = action;
     }
 
+    public String getRemindDate() {
+        return remindDate;
+    }
 
+    public void setRemindDate(String remindDate) {
+        this.remindDate = remindDate;
+    }
 
 //    public List<Comment> getCommentList() {
 //        return commentList;
@@ -107,10 +114,14 @@ public class Post {
        result.put("event",event);
        result.put("thought",thought);
        result.put("action",action);
-       result.put("date",RemindDate);
-
+       result.put("remindDate",remindDate);
        return result;
     }
 
+    @Override
+    public boolean equals(@androidx.annotation.Nullable Object obj) {
+        Post post = (Post) obj;
+        return pid.matches(post.getPid());
+    }
 
 }

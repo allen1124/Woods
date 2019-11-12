@@ -58,7 +58,7 @@ public class ExploreFragment extends Fragment {
         exploreViewModel.getPosts().observe(this, new Observer<List<Post>>() {
             @Override
             public void onChanged(@Nullable List<Post> postList) {
-                exploreRecyclerView.setAdapter(new PostsAdapter(postList));
+                exploreRecyclerView.setAdapter(new PostsAdapter(getActivity()));
             }
         });
 

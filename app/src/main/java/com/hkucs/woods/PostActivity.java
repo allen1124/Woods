@@ -97,12 +97,12 @@ public class PostActivity extends AppCompatActivity{
 
    }
 
-    public Date getRemindDate(int days){
+    public String getRemindDate(int days){
         Date current = Calendar.getInstance().getTime();
         Calendar cal = Calendar.getInstance();
         cal.setTime(current);
-        cal.add(Calendar.DATE,days);
-        Date futureDate = cal.getTime();
+        cal.add(Calendar.DATE, days);
+        String futureDate = cal.getTime().toString();
         return futureDate;
     }
 

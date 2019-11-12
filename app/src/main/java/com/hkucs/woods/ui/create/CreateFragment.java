@@ -25,6 +25,7 @@ import com.hkucs.woods.Post;
 import com.hkucs.woods.R;
 import com.hkucs.woods.User;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -117,9 +118,8 @@ public class CreateFragment extends Fragment {
         Calendar c = Calendar.getInstance();
         c.setTime(currentDate);
         c.add(Calendar.DATE, remindDay);
-        Date remindDate = new Date(c.getTimeInMillis());
+        String remindDate = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date(c.getTimeInMillis()));
         Post post = new Post(key, uid, username, moods, event, thought, action, remindDate);
-
         Map<String, Object> postValues = post.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/posts/" + key, postValues);

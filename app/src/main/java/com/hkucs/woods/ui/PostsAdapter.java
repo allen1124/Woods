@@ -1,7 +1,9 @@
 package com.hkucs.woods.ui;
 
+import android.content.Context;
 import android.content.ReceiverCallNotAllowedException;
 import android.service.autofill.TextValueSanitizer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +31,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private List<Post> postList;
+    Context context;
     private String uid;
 
-    public PostsAdapter(List<Post> postList) {
-        this.postList = postList;
+    public PostsAdapter(Context context) {
+        this.context = context;
         this.mAuth = FirebaseAuth.getInstance();
         this.uid = mAuth.getUid();
         this.mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -40,6 +43,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView username;
+        public TextView event;
+        public TextView thought;
+        public TextView action;
         public Button comment;
         public Button commentSend;
         public EditText commentContent;
@@ -48,6 +54,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             username = (TextView) itemView.findViewById(R.id.textView_username);
+            event = (TextView) itemView.findViewById(R.id.textView_event);
+            thought = (TextView) itemView.findViewById(R.id.textView_thought);
+            action = (TextView) itemView.findViewById(R.id.textView_action);
             comment = (Button) itemView.findViewById(R.id.button_comment);
             commentSend = (Button) itemView.findViewById(R.id.button_send);
             commentContent = (EditText) itemView.findViewById(R.id.editText_comment);
@@ -70,6 +79,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         List<Comment> commentList = new ArrayList<Comment>();
         commentList.add(new Comment("Joker", "HAHAHA", new Date()));
         holder.username.setText(post.getUsername());
+        holder.event.setText(post.getEvent());
+        holder.thought.setText(post.getThought());
+        holder.action.setText(post.getAction());
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,10 +104,18 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         });
     }
 
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
+    }
+
     @Override
     public int getItemCount() {
         if(postList == null)
             return 0;
         return postList.size();
+    }
+
+    public String getLastItemDate(){
+        return postList.get(postList.size()-1).getRemindDate();
     }
 }

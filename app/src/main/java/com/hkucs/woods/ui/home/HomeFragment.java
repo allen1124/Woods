@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.LongDef;
@@ -42,11 +43,12 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         postsAdapter = new PostsAdapter(getActivity());
         homeViewModel.loadPosts(mPosts);
+        recyclerView.setAdapter(postsAdapter);
         homeViewModel.getPosts().observe(this, new Observer<List<Post>>() {
             @Override
             public void onChanged(@Nullable List<Post> postList) {
                 postsAdapter.setPostList(postList);
-                recyclerView.setAdapter(postsAdapter);
+                postsAdapter.notifyDataSetChanged();
             }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

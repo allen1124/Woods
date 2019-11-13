@@ -12,7 +12,6 @@ import com.google.firebase.database.Query;
 import com.hkucs.woods.Post;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -43,7 +42,6 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void loadPosts(int numberPost) {
-        // Do an asynchronous operation to fetch users.
         Query ref = mDatabase.child("user-posts").child(uid).orderByChild("remindDate").limitToFirst(numberPost);
         ref.addChildEventListener(new ChildEventListener() {
             @Override

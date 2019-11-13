@@ -114,6 +114,7 @@ public class CreateFragment extends Fragment {
     private void writeNewPost(String uid, String username, int emotionId, String event, String thought, String action, int remindDay){
         String key = mDatabase.child("posts").push().getKey();
         boolean moods = emotionId == positive.getId()? true : false;
+        String mood = moods? "positive" : "negative";
         Date currentDate = Calendar.getInstance().getTime();
         Calendar c = Calendar.getInstance();
         c.setTime(currentDate);
@@ -122,9 +123,8 @@ public class CreateFragment extends Fragment {
         Post post = new Post(key, uid, username, moods, event, thought, action, remindDate);
         Map<String, Object> postValues = post.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/posts/" + key, postValues);
+        childUpdates.put("/posts/" + mood + "/" + key, postValues);
         childUpdates.put("/user-posts/" + uid + "/" + key, postValues);
-
         mDatabase.updateChildren(childUpdates);
     }
 

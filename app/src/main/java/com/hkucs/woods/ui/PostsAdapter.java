@@ -10,17 +10,28 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hkucs.woods.Comment;
+import com.hkucs.woods.LoadActivity;
 import com.hkucs.woods.Post;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import com.hkucs.woods.R;
+import com.hkucs.woods.User;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -64,6 +75,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             commentGroup = (Group) itemView.findViewById(R.id.group_comment);
             commentGroup.setVisibility(View.GONE);
         }
+
+        private void resetComment(boolean enabled) {
+            commentSend.setEnabled(enabled);
+            commentContent.setEnabled(enabled);
+            commentContent.setText(null);
+        }
     }
 
     @Override
@@ -75,9 +92,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        Post post = postList.get(position);
+        final Post post = postList.get(position);
         List<Comment> commentList = new ArrayList<Comment>();
-        commentList.add(new Comment("Joker", "HAHAHA", new Date()));
         holder.username.setText(post.getUsername());
         holder.event.setText(post.getEvent());
         holder.thought.setText(post.getThought());
@@ -99,7 +115,14 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         holder.commentSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Add comment to post
+                String commentContent = holder.commentContent.getText().toString();
+                if(commentContent.matches(""))
+                    return;
+                else {
+                    holder.resetComment(false);
+                    sendComment(post.getPid(), commentContent, post.getMoods());
+                    holder.resetComment(true);
+                }
             }
         });
     }
@@ -116,6 +139,35 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     }
 
     public String getLastItemDate(){
+        String lastItemDate;
+        try {
+            lastItemDate = postList.get(postList.size()-1).getRemindDate();
+        } catch (Exception e) {
+            return "";
+        }
         return postList.get(postList.size()-1).getRemindDate();
+    }
+
+    public void sendComment(final String pid, final String content, boolean moods){
+        final String key = mDatabase.child("comments").push().getKey();
+        final String mood = moods? "positive" : "negative";
+        final User[] current = new User[1];
+        Log.d("COMMENT", uid);
+        final String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        mDatabase.child("users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                current[0] = dataSnapshot.getValue(User.class);
+                Comment comment = new Comment(key, uid, current[0].getUsername(), current[0].getAvatarImageUrl(), content, timeStamp);
+                Map<String, Object> commentValues = comment.toMap();
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/posts/" + mood + "/" + pid + "/comments/" + key, commentValues);
+                childUpdates.put("/post-comments/" + pid + "/" + key, commentValues);
+                mDatabase.updateChildren(childUpdates);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 }

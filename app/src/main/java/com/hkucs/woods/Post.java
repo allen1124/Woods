@@ -16,9 +16,7 @@ public class Post {
     private String event;
     private String thought;
     private String action;
-
     private String remindDate;
-    private Map<String,Comment> commentList = new HashMap<>();
 
     public Post(){}
 
@@ -97,13 +95,6 @@ public class Post {
         this.remindDate = remindDate;
     }
 
-//    public List<Comment> getCommentList() {
-//        return commentList;
-//    }
-//
-//    public void setCommentList(List<Comment> commentList) {
-//        this.commentList = commentList;
-//    }
 
     public Map<String, Object> toMap(){
        HashMap<String, Object> result = new HashMap<>();

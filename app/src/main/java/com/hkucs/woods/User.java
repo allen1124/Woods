@@ -1,9 +1,10 @@
 package com.hkucs.woods;
 
 public class User {
-    public String uid;
-    public String username;
-    public String avatarImageUrl;
+    private String uid;
+    private String username;
+    private String avatarImageUrl;
+
 
     public User() {
     }

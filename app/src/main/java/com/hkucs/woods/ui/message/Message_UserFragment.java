@@ -1,17 +1,12 @@
 package com.hkucs.woods.ui.message;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +22,7 @@ import com.hkucs.woods.R;
 import com.hkucs.woods.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -38,7 +34,12 @@ public class Message_UserFragment extends Fragment {
 
     private UserAdapter userAdapter;
     private List<User> mUsers;
-    private FirebaseAuth mAuth;
+
+    FirebaseUser fuser;
+    DatabaseReference reference;
+
+    private List<ChatlistModel> userList;
+
 
         public View onCreateView(@NonNull LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState) {
@@ -50,16 +51,89 @@ public class Message_UserFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
             mUsers = new ArrayList<>();
+            //userList = new ArrayList<>();
+            //to be used later
+            //fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
+            /*reference = FirebaseDatabase.getInstance().getReference("chats");
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    mUsers.clear();
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        User user= snapshot.getValue(User.class);
+
+                        assert user!= null;
+                        if (!user.getUid().equals(fuser.getUid())){
+                            mUsers.add(user);
+                        }
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });*/
+            /*reference = FirebaseDatabase.getInstance().getReference("chatlist").child(fuser.getUid());
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    userList.clear();
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        ChatlistModel chatlist = snapshot.getValue(ChatlistModel.class);
+                        userList.add(chatlist);
+                    }
+                    chatList();
+                    readUsers();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });*/
 
             readUsers();
 
             return view;
     }
 
+    private void chatList() {
+            mUsers = new ArrayList<>();
+            reference = FirebaseDatabase.getInstance().getReference("users");
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    mUsers.clear();
+                    for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                        User user = snapshot.getValue(User.class);
+                        for(ChatlistModel chatlist : userList){
+                            if (user.getUid().equals(chatlist.getId())){
+                                mUsers.add(user);
+                            }
+                        }
+                    }
+                    userAdapter = new UserAdapter(getContext(), mUsers, true);
+                    recyclerView.setAdapter(userAdapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+
 
     private void readUsers(){
 
@@ -71,13 +145,11 @@ public class Message_UserFragment extends Fragment {
                 mUsers.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-
-                    Log.i("test user", user.toString());
                     if (!user.getUid().equals(firebaseUser.getUid())) {
                         mUsers.add(user);
                     }
                 }
-                userAdapter = new UserAdapter(getContext(), mUsers);
+                userAdapter = new UserAdapter(getContext(), mUsers, false);
                 recyclerView.setAdapter(userAdapter);
             }
 
@@ -86,5 +158,26 @@ public class Message_UserFragment extends Fragment {
 
             }
         });
+    }
+
+    private void status(String status){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users" ).child(firebaseUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        status("offline");
     }
 }

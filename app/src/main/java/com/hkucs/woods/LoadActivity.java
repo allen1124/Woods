@@ -16,15 +16,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoadActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         setContentView(R.layout.activity_load);
 
         if (getSupportActionBar() != null){
@@ -54,9 +61,19 @@ public class LoadActivity extends AppCompatActivity {
                 }
             }, 2000);
         }else{
+            mDatabase.child("users").child(currentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Log.d("LOADACTIVITY", "GET USER");
+                    User current = dataSnapshot.getValue(User.class);
+                    Toast.makeText(LoadActivity.this, "Welcome Back "+ current.getUsername(),
+                            Toast.LENGTH_SHORT).show();
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
             Log.d("LOADACTIVITY", "login: "+currentUser.getUid());
-            Toast.makeText(LoadActivity.this, "Welcome Back "+currentUser.getUid(),
-                    Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
                 public void run() {
                     startActivity(new Intent(LoadActivity.this, HomeActivity.class));

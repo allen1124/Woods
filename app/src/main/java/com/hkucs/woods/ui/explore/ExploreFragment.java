@@ -26,23 +26,38 @@ public class ExploreFragment extends Fragment {
 
     private ExploreViewModel exploreViewModel;
     private RecyclerView exploreRecyclerView;
+    private LinearLayoutManager layoutManager;
+    private PostsAdapter postsAdapter;
     private TabLayout exploreTab;
+    private int mPosts = 10;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         exploreViewModel =
                 ViewModelProviders.of(this).get(ExploreViewModel.class);
-                View root = inflater.inflate(R.layout.fragment_explore, container, false);
-                exploreTab = root.findViewById(R.id.tabLayout_explore);
-                exploreViewModel.loadHappyPosts();
-                exploreTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                        Log.d("EXPLORE", "tab selected"+tab.getPosition());
-                        if(tab.getPosition() == 0)
-                            exploreViewModel.loadHappyPosts();
-                        if(tab.getPosition() == 1)
-                            exploreViewModel.loadSadPosts();
+        View root = inflater.inflate(R.layout.fragment_explore, container, false);
+        exploreTab = root.findViewById(R.id.tabLayout_explore);
+        exploreRecyclerView = root.findViewById(R.id.recycleview_explore_posts);
+        layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
+        exploreRecyclerView.setLayoutManager(layoutManager);
+        postsAdapter = new PostsAdapter(getActivity());
+        exploreRecyclerView.setAdapter(postsAdapter);
+        exploreViewModel.getPosts().observe(this, new Observer<List<Post>>() {
+            @Override
+            public void onChanged(@Nullable List<Post> postList) {
+                postsAdapter.setPostList(postList);
+                postsAdapter.notifyDataSetChanged();
+            }
+        });
+        exploreViewModel.loadHappyPosts(mPosts);
+        exploreTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.d("EXPLORE", "tab selected"+tab.getPosition());
+                if(tab.getPosition() == 0)
+                    exploreViewModel.loadHappyPosts(mPosts);
+                if(tab.getPosition() == 1)
+                    exploreViewModel.loadSadPosts(mPosts);
             }
 
             @Override
@@ -53,15 +68,17 @@ public class ExploreFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        exploreRecyclerView = root.findViewById(R.id.recycleview_explore_posts);
-        exploreRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        exploreViewModel.getPosts().observe(this, new Observer<List<Post>>() {
+        exploreRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onChanged(@Nullable List<Post> postList) {
-                exploreRecyclerView.setAdapter(new PostsAdapter(postList));
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int id = layoutManager.findLastCompletelyVisibleItemPosition();
+                if(id >= postsAdapter.getItemCount()-1){
+                    String lastItemDate = postsAdapter.getLastItemDate();
+                    exploreViewModel.addNewPost(lastItemDate, exploreTab.getSelectedTabPosition());
+                }
             }
         });
-
         return root;
     }
 

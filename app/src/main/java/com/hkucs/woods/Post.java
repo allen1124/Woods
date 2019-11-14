@@ -12,25 +12,25 @@ public class Post {
     private String pid;
     private String uid;
     private String username;
+    private String avatar_url;
     private Boolean moods;
     private String event;
     private String thought;
     private String action;
-    private Date RemindDate;
-    private Map<String,Comment> commentList = new HashMap<>();
+    private String remindDate;
 
     public Post(){}
 
-    public Post(String pid, String uid, String username, Boolean moods, String event,String thought,String action,Date RemindDate){
+    public Post(String pid, String uid, String username, String avatar_url, Boolean moods, String event,String thought,String action,String remindDate){
         this.pid = pid;
         this.uid = uid;
         this.username = username;
+        this.avatar_url = avatar_url;
         this.moods = moods;
         this.event = event;
         this.thought = thought;
         this.action = action;
-        this.RemindDate = RemindDate;
-
+        this.remindDate = remindDate;
     }
 
     public Post(String pid, String uid, String username, Boolean moods, String event){
@@ -97,29 +97,40 @@ public class Post {
         this.action = action;
     }
 
+    public String getRemindDate() {
+        return remindDate;
+    }
 
+    public void setRemindDate(String remindDate) {
+        this.remindDate = remindDate;
+    }
 
-//    public List<Comment> getCommentList() {
-//        return commentList;
-//    }
-//
-//    public void setCommentList(List<Comment> commentList) {
-//        this.commentList = commentList;
-//    }
+    public String getAvatar_url() {
+        return avatar_url;
+    }
+
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
+    }
 
     public Map<String, Object> toMap(){
        HashMap<String, Object> result = new HashMap<>();
        result.put("pid",pid);
        result.put("uid",uid);
        result.put("username",username);
+       result.put("avatar_url",avatar_url);
        result.put("moods",moods);
        result.put("event",event);
        result.put("thought",thought);
        result.put("action",action);
-       result.put("date",RemindDate);
-
+       result.put("remindDate",remindDate);
        return result;
     }
 
+    @Override
+    public boolean equals(@androidx.annotation.Nullable Object obj) {
+        Post post = (Post) obj;
+        return pid.matches(post.getPid());
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.hkucs.woods;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Comment {
     public String cid;
@@ -8,10 +10,15 @@ public class Comment {
     public String author_username;
     public String avatar_url;
     public String content;
-    public Date timestamp;
+    public String timestamp;
 
-    public Comment(String author_username, String content, Date timestamp) {
+    public Comment(){}
+
+    public Comment(String cid, String author_uid, String author_username, String avatar_url, String content, String timestamp) {
+        this.cid = cid;
+        this.author_uid = author_uid;
         this.author_username = author_username;
+        this.avatar_url = avatar_url;
         this.content = content;
         this.timestamp = timestamp;
     }
@@ -56,12 +63,22 @@ public class Comment {
         this.content = content;
     }
 
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("cid", cid);
+        result.put("author_uid", author_uid);
+        result.put("author_username", author_username);
+        result.put("avatar_url", avatar_url);
+        result.put("content", content);
+        result.put("timestamp", timestamp);
+        return result;
+    }
 }

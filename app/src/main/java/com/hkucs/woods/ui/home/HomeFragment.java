@@ -1,11 +1,15 @@
 package com.hkucs.woods.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,22 +30,38 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private FirebaseAuth mAuth;
     private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+    private PostsAdapter postsAdapter;
+    private int mPosts = 10;
 
-
-        public View onCreateView(@NonNull LayoutInflater inflater,
-                ViewGroup container, Bundle savedInstanceState) {
-            mAuth = FirebaseAuth.getInstance();
-            homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-            View root = inflater.inflate(R.layout.fragment_home, container, false);
-            recyclerView = root.findViewById(R.id.recycleview_posts);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            homeViewModel.getPosts().observe(this, new Observer<List<Post>>() {
-                @Override
-                public void onChanged(@Nullable List<Post> postList) {
-                    recyclerView.setAdapter(new PostsAdapter(postList));
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        mAuth = FirebaseAuth.getInstance();
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        recyclerView = root.findViewById(R.id.recycleview_posts);
+        layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        postsAdapter = new PostsAdapter(getActivity());
+        homeViewModel.loadPosts(mPosts);
+        recyclerView.setAdapter(postsAdapter);
+        homeViewModel.getPosts().observe(this, new Observer<List<Post>>() {
+            @Override
+            public void onChanged(@Nullable List<Post> postList) {
+                postsAdapter.setPostList(postList);
+                postsAdapter.notifyDataSetChanged();
+            }
+        });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int id = layoutManager.findLastCompletelyVisibleItemPosition();
+                if(id >= postsAdapter.getItemCount()-1){
+                    homeViewModel.addNewPost(postsAdapter.getLastItemDate());
                 }
-            });
-
-            return root;
+            }
+        });
+        return root;
     }
 }

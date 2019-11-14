@@ -9,20 +9,34 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageView_avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            app:civ_border_width="2dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
             android:id="@+id/textView_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:padding="4dp"
             android:text="TextView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/circleImageView_avatar"
+            app:layout_constraintStart_toEndOf="@+id/circleImageView_avatar"
+            app:layout_constraintTop_toTopOf="@+id/circleImageView_avatar"
+            app:layout_constraintVertical_bias="0.484" />
 
         <Button
             android:id="@+id/button_comment"
@@ -45,8 +59,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_comment"
-            android:layout_width="367dp"
-            android:layout_height="130dp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.505"
@@ -92,10 +106,10 @@
             android:id="@+id/textView_event_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="@string/things_happened"
-            app:layout_constraintStart_toStartOf="@+id/textView_username"
-            app:layout_constraintTop_toBottomOf="@+id/textView_username" />
+            app:layout_constraintStart_toStartOf="@+id/circleImageView_avatar"
+            app:layout_constraintTop_toBottomOf="@+id/circleImageView_avatar" />
 
         <TextView
             android:id="@+id/textView_thought_title"

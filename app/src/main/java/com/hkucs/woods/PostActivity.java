@@ -76,7 +76,7 @@ public class PostActivity extends AppCompatActivity{
            public void onClick(View view){
 
                String key = mFirebaseDatabaseReference.child(POSTS).push().getKey();
-               Post post = new Post(key,mFirebaseUser.getUid(),mUsername,moods,event,thought,action,getRemindDate(days));
+               Post post = new Post(key,mFirebaseUser.getUid(),mUsername, "",moods,event,thought,action,getRemindDate(days));
 
                Map<String, Object> values = post.toMap();
                Map<String, Object> childUpdates = new HashMap<>();

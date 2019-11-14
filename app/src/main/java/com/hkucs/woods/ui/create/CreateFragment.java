@@ -89,7 +89,7 @@ public class CreateFragment extends Fragment {
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            writeNewPost(userId, user.username, checkedRadioButtonId, pEvent, pThought, pAction, pRemind_day);
+                            writeNewPost(userId, user.username, user.avatarImageUrl, checkedRadioButtonId, pEvent, pThought, pAction, pRemind_day);
                         }
                         setEditingEnabled(true);
                         finishPosting();
@@ -111,7 +111,7 @@ public class CreateFragment extends Fragment {
         submit.setEnabled(enabled);
     }
 
-    private void writeNewPost(String uid, String username, int emotionId, String event, String thought, String action, int remindDay){
+    private void writeNewPost(String uid, String username, String avatarUrl, int emotionId, String event, String thought, String action, int remindDay){
         String key = mDatabase.child("posts").push().getKey();
         boolean moods = emotionId == positive.getId()? true : false;
         String mood = moods? "positive" : "negative";
@@ -120,7 +120,7 @@ public class CreateFragment extends Fragment {
         c.setTime(currentDate);
         c.add(Calendar.DATE, remindDay);
         String remindDate = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date(c.getTimeInMillis()));
-        Post post = new Post(key, uid, username, moods, event, thought, action, remindDate);
+        Post post = new Post(key, uid, username, avatarUrl, moods, event, thought, action, remindDate);
         Map<String, Object> postValues = post.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/posts/" + mood + "/" + key, postValues);

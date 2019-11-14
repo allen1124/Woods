@@ -12,11 +12,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hkucs.woods.Comment;
 import com.hkucs.woods.LoadActivity;
@@ -31,11 +34,15 @@ import java.util.Map;
 
 import com.hkucs.woods.R;
 import com.hkucs.woods.User;
+import com.squareup.picasso.Picasso;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.Group;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
 
@@ -60,11 +67,13 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         public Button comment;
         public Button commentSend;
         public EditText commentContent;
+        public CircleImageView avatar;
         public Group commentGroup;
         public RecyclerView commentRecyclerView;
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             username = (TextView) itemView.findViewById(R.id.textView_username);
+            avatar = (CircleImageView) itemView.findViewById(R.id.circleImageView_avatar);
             event = (TextView) itemView.findViewById(R.id.textView_event);
             thought = (TextView) itemView.findViewById(R.id.textView_thought);
             action = (TextView) itemView.findViewById(R.id.textView_action);
@@ -81,6 +90,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             commentContent.setEnabled(enabled);
             commentContent.setText(null);
         }
+
+        private void fetchComment(String pid, ChildEventListener listener){
+            Query ref = mDatabase.child("post-comments").child(pid);
+            ref.addChildEventListener(listener);
+        }
     }
 
     @Override
@@ -93,11 +107,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final Post post = postList.get(position);
-        List<Comment> commentList = new ArrayList<Comment>();
+        final List<Comment> commentList = new ArrayList<>();
         holder.username.setText(post.getUsername());
         holder.event.setText(post.getEvent());
         holder.thought.setText(post.getThought());
         holder.action.setText(post.getAction());
+        Picasso.get().load(post.getAvatar_url()).into(holder.avatar);
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,10 +123,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                 }
             }
         });
-        LinearLayoutManager commentLayoutManager = new LinearLayoutManager(holder.commentRecyclerView.getContext());
+        final LinearLayoutManager commentLayoutManager = new LinearLayoutManager(holder.commentRecyclerView.getContext());
         commentLayoutManager.setInitialPrefetchItemCount(5);
+        final CommentsAdapter commentsAdapter = new CommentsAdapter(commentList);
         holder.commentRecyclerView.setLayoutManager(commentLayoutManager);
-        holder.commentRecyclerView.setAdapter(new CommentsAdapter(commentList));
+        holder.commentRecyclerView.setAdapter(commentsAdapter);
         holder.commentSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,9 +136,39 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                     return;
                 else {
                     holder.resetComment(false);
-                    sendComment(post.getPid(), commentContent, post.getMoods());
+                    sendComment(post.getPid(), commentContent);
                     holder.resetComment(true);
                 }
+            }
+        });
+        holder.fetchComment(post.getPid(), new ChildEventListener(){
+
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Comment comment = dataSnapshot.getValue(Comment.class);
+                commentsAdapter.addItem(comment);
+                commentsAdapter.notifyDataSetChanged();
+                commentLayoutManager.scrollToPosition(commentsAdapter.getItemCount()-1);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
@@ -148,9 +194,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         return postList.get(postList.size()-1).getRemindDate();
     }
 
-    public void sendComment(final String pid, final String content, boolean moods){
+    public void sendComment(final String pid, final String content){
         final String key = mDatabase.child("comments").push().getKey();
-        final String mood = moods? "positive" : "negative";
         final User[] current = new User[1];
         Log.d("COMMENT", uid);
         final String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
@@ -161,7 +206,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                 Comment comment = new Comment(key, uid, current[0].getUsername(), current[0].getAvatarImageUrl(), content, timeStamp);
                 Map<String, Object> commentValues = comment.toMap();
                 Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/posts/" + mood + "/" + pid + "/comments/" + key, commentValues);
                 childUpdates.put("/post-comments/" + pid + "/" + key, commentValues);
                 mDatabase.updateChildren(childUpdates);
             }

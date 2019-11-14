@@ -38,7 +38,7 @@ public class ExploreFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_explore, container, false);
         exploreTab = root.findViewById(R.id.tabLayout_explore);
         exploreRecyclerView = root.findViewById(R.id.recycleview_explore_posts);
-        layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         exploreRecyclerView.setLayoutManager(layoutManager);
         postsAdapter = new PostsAdapter(getActivity());
         exploreRecyclerView.setAdapter(postsAdapter);

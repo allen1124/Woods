@@ -1,15 +1,14 @@
 package com.hkucs.woods.ui;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hkucs.woods.Comment;
-import com.hkucs.woods.Post;
 import com.hkucs.woods.R;
-
-import org.w3c.dom.Text;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -48,9 +47,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Comment comment = commentList.get(position);
+        Log.d("COMMNET", String.valueOf(position)+" " +comment.getContent());
         holder.username.setText(comment.getAuthor_username());
         holder.commentContent.setText(comment.getContent());
-//        holder.avatar.setImageBitmap();
+        Picasso.get().load(comment.getAvatar_url()).into(holder.avatar);
     }
 
     @Override
@@ -60,4 +60,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         return commentList.size();
     }
 
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
+    public void addItem(Comment item) {
+        this.commentList.add(item);
+    }
 }

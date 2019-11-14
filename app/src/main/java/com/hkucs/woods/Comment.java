@@ -12,6 +12,8 @@ public class Comment {
     public String content;
     public String timestamp;
 
+    public Comment(){}
+
     public Comment(String cid, String author_uid, String author_username, String avatar_url, String content, String timestamp) {
         this.cid = cid;
         this.author_uid = author_uid;

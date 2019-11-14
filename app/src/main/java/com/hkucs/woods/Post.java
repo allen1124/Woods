@@ -12,6 +12,7 @@ public class Post {
     private String pid;
     private String uid;
     private String username;
+    private String avatar_url;
     private Boolean moods;
     private String event;
     private String thought;
@@ -20,10 +21,11 @@ public class Post {
 
     public Post(){}
 
-    public Post(String pid, String uid, String username, Boolean moods, String event,String thought,String action,String remindDate){
+    public Post(String pid, String uid, String username, String avatar_url, Boolean moods, String event,String thought,String action,String remindDate){
         this.pid = pid;
         this.uid = uid;
         this.username = username;
+        this.avatar_url = avatar_url;
         this.moods = moods;
         this.event = event;
         this.thought = thought;
@@ -95,12 +97,20 @@ public class Post {
         this.remindDate = remindDate;
     }
 
+    public String getAvatar_url() {
+        return avatar_url;
+    }
+
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
+    }
 
     public Map<String, Object> toMap(){
        HashMap<String, Object> result = new HashMap<>();
        result.put("pid",pid);
        result.put("uid",uid);
        result.put("username",username);
+       result.put("avatar_url",avatar_url);
        result.put("moods",moods);
        result.put("event",event);
        result.put("thought",thought);

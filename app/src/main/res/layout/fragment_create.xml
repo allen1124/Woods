@@ -131,12 +131,12 @@
             android:text="@string/blank"
             android:textSize="10sp" />
 
-        <TextView
-            android:id="@+id/music"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/music"
-            android:textSize="18sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/music"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/music"-->
+<!--            android:textSize="18sp" />-->
 
         <TextView
             android:id="@+id/text_border"

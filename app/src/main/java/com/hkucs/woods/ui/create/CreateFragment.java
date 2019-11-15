@@ -89,7 +89,7 @@ public class CreateFragment extends Fragment {
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            writeNewPost(userId, user.username, user.avatarImageUrl, checkedRadioButtonId, pEvent, pThought, pAction, pRemind_day);
+                            writeNewPost(userId, user.getUsername(), user.getAvatarImageUrl(), checkedRadioButtonId, pEvent, pThought, pAction, pRemind_day);
                         }
                         setEditingEnabled(true);
                         finishPosting();

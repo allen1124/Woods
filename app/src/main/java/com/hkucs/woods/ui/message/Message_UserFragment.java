@@ -51,11 +51,6 @@ public class Message_UserFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
             mUsers = new ArrayList<>();
-            //userList = new ArrayList<>();
-            //to be used later
-            //fuser = FirebaseAuth.getInstance().getCurrentUser();
-
-
 
             /*reference = FirebaseDatabase.getInstance().getReference("chats");
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -70,8 +65,6 @@ public class Message_UserFragment extends Fragment {
                             mUsers.add(user);
                         }
                     }
-
-
                 }
 
                 @Override
@@ -103,31 +96,7 @@ public class Message_UserFragment extends Fragment {
             return view;
     }
 
-    private void chatList() {
-            mUsers = new ArrayList<>();
-            reference = FirebaseDatabase.getInstance().getReference("users");
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    mUsers.clear();
-                    for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                        User user = snapshot.getValue(User.class);
-                        for(ChatlistModel chatlist : userList){
-                            if (user.getUid().equals(chatlist.getId())){
-                                mUsers.add(user);
-                            }
-                        }
-                    }
-                    userAdapter = new UserAdapter(getContext(), mUsers, true);
-                    recyclerView.setAdapter(userAdapter);
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

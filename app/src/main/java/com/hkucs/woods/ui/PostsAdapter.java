@@ -1,6 +1,7 @@
 package com.hkucs.woods.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.ReceiverCallNotAllowedException;
 import android.service.autofill.TextValueSanitizer;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hkucs.woods.Comment;
 import com.hkucs.woods.LoadActivity;
+import com.hkucs.woods.MessageActivity;
 import com.hkucs.woods.Post;
 
 import java.text.SimpleDateFormat;
@@ -113,6 +115,24 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         holder.thought.setText(post.getThought());
         holder.action.setText(post.getAction());
         Picasso.get().load(post.getAvatar_url()).into(holder.avatar);
+        holder.avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MessageActivity.class);
+                intent.putExtra("userid", post.getUid());
+                context.startActivity(intent);
+            }
+        });
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, MessageActivity.class);
+                intent.putExtra("userid", post.getUid());
+                context.startActivity(intent);
+            }
+        });
+
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

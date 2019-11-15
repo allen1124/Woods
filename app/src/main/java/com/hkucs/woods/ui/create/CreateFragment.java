@@ -50,7 +50,7 @@ public class CreateFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         emotion = root.findViewById(R.id.radioGroup_emotion);
         negative = root.findViewById(R.id.radioButton_negative);
-        positive = root.findViewById(R.id.radioButton_positive);
+        positive = root.findViewById(R.id.radioButton_positive_edit);
         event = root.findViewById(R.id.editText_event);
         thought = root.findViewById(R.id.editText_thought);
         action = root.findViewById(R.id.editText_action);

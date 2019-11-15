@@ -48,13 +48,13 @@
             android:id="@+id/button_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:background="#00FFFFFF"
             android:text="Comment"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView_comment"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_edit"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_action"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_action" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_comment"
@@ -70,7 +70,8 @@
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_comment" />
 
         <EditText
             android:id="@+id/editText_comment"
@@ -155,6 +156,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_action_title" />
+
+        <Button
+            android:id="@+id/button_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
+            android:text="@string/edit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button_comment"
+            app:layout_constraintTop_toBottomOf="@+id/textView_action" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

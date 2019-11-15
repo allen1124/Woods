@@ -131,12 +131,12 @@
             android:text="@string/blank"
             android:textSize="10sp" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/music"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/music"-->
-<!--            android:textSize="18sp" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/music"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="@string/music"-->
+        <!--            android:textSize="18sp" />-->
 
         <TextView
             android:id="@+id/text_border"
@@ -172,13 +172,24 @@
                 android:layout_weight="1"
                 android:text="@string/remind2" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/button_submit"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#00FFFFFF"
-            android:text="@string/btn_submit" />
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/button_submit"
+                android:layout_width="182dp"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:text="@string/btn_submit" />
+
+            <Button
+                android:id="@+id/button_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:text="@string/delete" />
+        </LinearLayout>
     </LinearLayout>
 
 

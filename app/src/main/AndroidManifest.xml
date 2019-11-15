@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MessageActivity"></activity>
+        <activity android:name=".PostActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.hkucs.woods.HomeActivity" />
+        </activity>
         <activity android:name=".RegistrationActivity" />
         <activity
             android:name=".HomeActivity"

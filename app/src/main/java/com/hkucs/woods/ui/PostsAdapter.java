@@ -27,6 +27,7 @@ import com.hkucs.woods.LoadActivity;
 import com.hkucs.woods.MessageActivity;
 import com.hkucs.woods.Post;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hkucs.woods.PostActivity;
 import com.hkucs.woods.R;
 import com.hkucs.woods.User;
 import com.squareup.picasso.Picasso;
@@ -68,6 +70,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         public TextView action;
         public Button comment;
         public Button commentSend;
+        public Button editPost;
         public EditText commentContent;
         public CircleImageView avatar;
         public Group commentGroup;
@@ -80,6 +83,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
             thought = (TextView) itemView.findViewById(R.id.textView_thought);
             action = (TextView) itemView.findViewById(R.id.textView_action);
             comment = (Button) itemView.findViewById(R.id.button_comment);
+            editPost = (Button) itemView.findViewById(R.id.button_edit);
             commentSend = (Button) itemView.findViewById(R.id.button_send);
             commentContent = (EditText) itemView.findViewById(R.id.editText_comment);
             commentRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerView_comment);
@@ -115,6 +119,19 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         holder.thought.setText(post.getThought());
         holder.action.setText(post.getAction());
         Picasso.get().load(post.getAvatar_url()).into(holder.avatar);
+        if(post.getUid().matches(uid)){
+            holder.editPost.setVisibility(View.VISIBLE);
+        }else{
+            holder.editPost.setVisibility(View.GONE);
+        }
+        holder.editPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, PostActivity.class);
+                intent.putExtra("post", (Serializable) post.toMap());
+                context.startActivity(intent);
+            }
+        });
         holder.avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +143,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(context, MessageActivity.class);
                 intent.putExtra("userid", post.getUid());
                 context.startActivity(intent);
@@ -145,7 +161,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
         });
         final LinearLayoutManager commentLayoutManager = new LinearLayoutManager(holder.commentRecyclerView.getContext());
         commentLayoutManager.setInitialPrefetchItemCount(5);
-        final CommentsAdapter commentsAdapter = new CommentsAdapter(commentList);
+        final CommentsAdapter commentsAdapter = new CommentsAdapter(commentList, context);
         holder.commentRecyclerView.setLayoutManager(commentLayoutManager);
         holder.commentRecyclerView.setAdapter(commentsAdapter);
         holder.commentSend.setOnClickListener(new View.OnClickListener() {

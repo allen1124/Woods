@@ -1,5 +1,7 @@
 package com.hkucs.woods.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hkucs.woods.Comment;
+import com.hkucs.woods.MessageActivity;
 import com.hkucs.woods.R;
 import com.squareup.picasso.Picasso;
 
@@ -19,8 +22,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHolder>{
 
     private List<Comment> commentList;
+    Context context;
 
-    public CommentsAdapter(List<Comment> commentList) {
+    public CommentsAdapter(List<Comment> commentList, Context context) {
+        this.context = context;
         this.commentList = commentList;
     }
 
@@ -46,8 +51,23 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Comment comment = commentList.get(position);
-        Log.d("COMMNET", String.valueOf(position)+" " +comment.getContent());
+        final Comment comment = commentList.get(position);
+        holder.avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MessageActivity.class);
+                intent.putExtra("userid", comment.getAuthor_uid());
+                context.startActivity(intent);
+            }
+        });
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MessageActivity.class);
+                intent.putExtra("userid", comment.getAuthor_uid());
+                context.startActivity(intent);
+            }
+        });
         holder.username.setText(comment.getAuthor_username());
         holder.commentContent.setText(comment.getContent());
         Picasso.get().load(comment.getAvatar_url()).into(holder.avatar);

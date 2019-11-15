@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,10 +20,10 @@
             android:id="@+id/circleImageView_avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
             app:civ_border_width="2dp"
-            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -33,6 +37,8 @@
             android:layout_marginLeft="32dp"
             android:padding="4dp"
             android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/circleImageView_avatar"
             app:layout_constraintStart_toEndOf="@+id/circleImageView_avatar"
             app:layout_constraintTop_toTopOf="@+id/circleImageView_avatar"
@@ -59,11 +65,11 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView_comment"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
             app:layout_constraintBottom_toTopOf="@+id/editText_comment"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.505"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
@@ -84,7 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
             android:layout_marginLeft="64dp"
-            android:text="Button"
+            android:background="#00FFFFFF"
+            android:text="@string/send"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.142"
@@ -95,7 +102,7 @@
         <TextView
             android:id="@+id/textView_event"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +113,7 @@
             android:id="@+id/textView_event_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/things_happened"
             app:layout_constraintStart_toStartOf="@+id/circleImageView_avatar"
             app:layout_constraintTop_toBottomOf="@+id/circleImageView_avatar" />
@@ -123,7 +130,7 @@
         <TextView
             android:id="@+id/textView_thought"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -142,7 +149,7 @@
         <TextView
             android:id="@+id/textView_action"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -153,3 +160,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
+</androidx.core.widget.NestedScrollView>

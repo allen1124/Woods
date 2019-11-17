@@ -57,22 +57,16 @@ public class Message_chatFragment extends Fragment {
         //to be used later
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
-
-
-        reference = FirebaseDatabase.getInstance().getReference("chats");
+        reference = FirebaseDatabase.getInstance().getReference("chatlist").child(fuser.getUid());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mUsers.clear();
+                userList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    User user= snapshot.getValue(User.class);
-
-                    assert user!= null;
-                    if (!user.getUid().equals(fuser.getUid())){
-                        mUsers.add(user);
-                    }
+                    ChatlistModel chatlist = snapshot.getValue(ChatlistModel.class);
+                    userList.add(chatlist);
                 }
-
+                chatList();
 
             }
 

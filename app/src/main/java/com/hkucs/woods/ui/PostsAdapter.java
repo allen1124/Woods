@@ -132,22 +132,22 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder>{
                 context.startActivity(intent);
             }
         });
-        holder.avatar.setOnClickListener(new View.OnClickListener() {
+        /*holder.avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MessageActivity.class);
                 intent.putExtra("userid", post.getUid());
                 context.startActivity(intent);
             }
-        });
-        holder.username.setOnClickListener(new View.OnClickListener() {
+        });*/
+        /*holder.username.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MessageActivity.class);
                 intent.putExtra("userid", post.getUid());
                 context.startActivity(intent);
             }
-        });
+        });*/
 
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override

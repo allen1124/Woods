@@ -52,45 +52,6 @@ public class Message_UserFragment extends Fragment {
 
             mUsers = new ArrayList<>();
 
-            /*reference = FirebaseDatabase.getInstance().getReference("chats");
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    mUsers.clear();
-                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                        User user= snapshot.getValue(User.class);
-
-                        assert user!= null;
-                        if (!user.getUid().equals(fuser.getUid())){
-                            mUsers.add(user);
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });*/
-            /*reference = FirebaseDatabase.getInstance().getReference("chatlist").child(fuser.getUid());
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    userList.clear();
-                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                        ChatlistModel chatlist = snapshot.getValue(ChatlistModel.class);
-                        userList.add(chatlist);
-                    }
-                    chatList();
-                    readUsers();
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });*/
-
             readUsers();
 
             return view;

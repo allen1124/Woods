@@ -10,12 +10,15 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.hkucs.woods.MessageActivity;
@@ -26,6 +29,10 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
     public void onMessageReceived (RemoteMessage remoteMessaging){
         super.onMessageReceived(remoteMessaging);
 
+        Log.d("Debug", "data received, ready to create notification...");
+        Log.d("Debug", "remote message data: "+remoteMessaging.getData().toString());
+
+
         String sented = remoteMessaging.getData().get("sented");
         String user= remoteMessaging.getData().get("user");
 
@@ -33,21 +40,20 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         String currentUser = preferences.getString("currentuser", "none");
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
+        Log.d("Debug", "sender: "+sented);
         if (firebaseUser!= null && sented.equals(firebaseUser.getUid())) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (!currentUser.equals(user)) {
+            if (!currentUser.equals(user)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     sendOreoNotification(remoteMessaging);
                 } else {
                     sendNotification(remoteMessaging);
                 }
-                sendNotification(remoteMessaging);
             }
         }
     }
 
     private void sendOreoNotification(RemoteMessage remoteMessage){
+        Log.d("Debug", "send Oreo notification accessiblee");
 
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");
@@ -71,12 +77,11 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         if (j > 0){
             i=j;
         }
-
         oreoNotification.getManager().notify(i, builder.build());
     }
 
     private void sendNotification(RemoteMessage remoteMessage) {
-
+        Log.d("Debug", "send notification accessible");
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");
         String title = remoteMessage.getData().get("title");
@@ -106,6 +111,29 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         }
 
         noti.notify(i, builder.build());
+    }
+
+
+    @Override
+    public void onNewToken(String s) {
+        super.onNewToken(s);
+        Log.d("NEW_TOKEN",s);
+        Log.d("debug",s);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        String refreshToken = FirebaseInstanceId.getInstance().getToken();
+        if (firebaseUser!= null){
+            updateToken(refreshToken);
+        }
+    }
+
+    private void updateToken(String refreshToken ){
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("tokens");
+        Token token = new Token(refreshToken);
+        reference.child(firebaseUser.getUid()).setValue(token);
+        Log.d("debug", "update Token works");
     }
 
 }

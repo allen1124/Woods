@@ -10,6 +10,9 @@ import android.content.ContextWrapper;
 import android.net.Uri;
 import android.os.Build;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 public class OreoNotification extends ContextWrapper {
 
     private static final String CHANNEL_ID = "com.hkucs.woods";
@@ -40,13 +43,19 @@ public class OreoNotification extends ContextWrapper {
     public NotificationManager getManager(){
         if (notificationManager == null){
             notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
         }
+        return notificationManager;
+    }
+
+    public NotificationManagerCompat getManagerCompact(){
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         return notificationManager;
     }
 
     @TargetApi(Build.VERSION_CODES.O)
     public  Notification.Builder getOreoNotification(String title, String body,
-                                                     PendingIntent pendingIntent, Uri soundUri, String icon){
+                                                         PendingIntent pendingIntent, Uri soundUri, String icon){
         return new Notification.Builder(getApplicationContext(), CHANNEL_ID)
                 .setContentIntent(pendingIntent)
                 .setContentTitle(title)

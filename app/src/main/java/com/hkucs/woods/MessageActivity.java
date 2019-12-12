@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -98,7 +99,7 @@ public class MessageActivity extends AppCompatActivity {
 
         intent = getIntent();
         final String userid = intent.getStringExtra("userid" );
-
+        Log.d("Debug", "userid (on create)"+ userid);
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -217,7 +218,9 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 if (notify){
+                    Log.d("Debug", "ready to send notification");
                     sendNotification(receiver, user.getUsername(), msg);
+                    Log.d("Debug", "send notification finished");
                 }
                 notify = false;
 
@@ -230,7 +233,7 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void sendNotification(String receiver, final String username, final String message){
+    private void sendNotification(final String receiver, final String username, final String message){
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("tokens");
         Query query = tokens.orderByKey().equalTo(receiver);
         query.addValueEventListener(new ValueEventListener() {
@@ -238,16 +241,20 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                     Token token = snapshot.getValue(Token.class);
+                    Log.d("Debug", "userid before sent: "+receiver);
                     Data data = new Data(fuser.getUid(), R.mipmap.ic_launcher, username+": "+message, "New Message",
-                            userid);
-
+                            receiver);
                     Sender sender = new Sender(data, token.getToken());
+                    Log.d("Debug", "data is: "+ data);
 
+                    Log.d("Debug", "token is: "+ token.getToken());
                     apiService.sendNotification(sender)
                             .enqueue(new Callback<MyResponse>() {
                                 @Override
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    Log.d("Debug", "response.code: "+response.code());
                                     if (response.code() == 200){
+                                        Log.d("Debug", "");
                                         if (response.body().success != 1){
                                             Toast.makeText(MessageActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                                         }

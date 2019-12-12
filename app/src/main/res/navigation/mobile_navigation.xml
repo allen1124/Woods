@@ -27,5 +27,5 @@
         android:id="@+id/navigation_message"
         android:name="com.hkucs.woods.ui.message.Message_chatFragment"
         android:label="@string/title_message"
-        tools:layout="@layout/fragment_message_chat" />
-</navigation>
+    tools:layout="@layout/fragment_message_chat" />
+    </navigation>

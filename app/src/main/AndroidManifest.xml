@@ -19,19 +19,27 @@
             android:name=".notifications.MyFirebaseIdService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID__EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
+
+
         <service
             android:name=".notifications.MyFirebaseMessaging"
-            android:exported="false">
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <activity android:name=".MessageActivity"></activity>
+
+        <activity android:name=".MessageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
         <activity android:name=".PostActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hkucs.woods.HomeActivity" />
